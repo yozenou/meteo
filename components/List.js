@@ -46,7 +46,7 @@ fetchWeather(){
       return(
             <ListView
           dataSource={ds.cloneWithRows(this.state.reportApi.list)}
-          renderRow={(row,j,k) => <WeatherRow day={row} index={k} /> }
+          renderRow={(row,j,k) => <WeatherRow day={row} index={parseInt(k, 10)} /> }
         />
       )
     }

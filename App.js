@@ -4,10 +4,11 @@ import { TabNavigator,TabBarBottom} from 'react-navigation'
 
 
 import About from './components/About'
-import Home from './components/Search'
+import Search from './components/Search'
+
 
 const Tabs = TabNavigator({
-    Home: { screen: Home },
+    Home: { screen: Search },
     About: { screen: About }
   },
   {

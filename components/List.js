@@ -9,22 +9,29 @@ export default class List extends React.Component {
 
   static navigationOptions = ({navigation}) => {
     return {
-      // title: `Météo / ${navigation.state.params.ville}`,
+       title: `Météo / ${navigation.state.params.ville}`,
+       tabBarIcon : () =>{
+         return <Image source={require('./icons/home.png')} style={{width:22,height:22}}/>
+       }
     }
   }
+
 
 
 constructor(props){
   super(props)
   this.state = {
-    ville:'Montpellier', //this.props.navigation.state.params.ville,
+    ville:this.props.navigation.state.params.ville,
     reportApi:null
   }
-  this.fetchWeather()
+  setTimeout(()=>{
+    this.fetchWeather()
+  },1000)
+
 }
 
 fetchWeather(){
-  axios.get(`http://api.openweathermap.org/data/2.5/forecast?q=${this.state.ville}&APPID=4cb8b6ae0f608ecf2c1e8da80b2fcfb4&units=metric`)
+  axios.get(`http://api.apixu.com/v1/forecast.json?key=ec7dee18dfc243e2abc140255182102&q=${this.state.ville}&days=9`)
   .then((reponse)=>{
     this.setState({reportApi:reponse.data})
   })
@@ -45,7 +52,7 @@ fetchWeather(){
 
       return(
             <ListView
-          dataSource={ds.cloneWithRows(this.state.reportApi.list)}
+          dataSource={ds.cloneWithRows(this.state.reportApi.forecast.forecastday)}
           renderRow={(row,j,k) => <WeatherRow day={row} index={parseInt(k, 10)} /> }
         />
       )

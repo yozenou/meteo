@@ -1,11 +1,15 @@
 import React from 'react'
-import {View, Text,TextInput,StyleSheet,Image,Button} from 'react-native'
+import {View, Text,TextInput,StyleSheet,Image,Button, Keyboard} from 'react-native'
 import globalStyle from '../Style'
 import List from './List'
 import {StackNavigator} from 'react-navigation'
 
 
 class Search extends React.Component{
+  constructor(props) {
+      super(props);
+      this.state = { text: 'Marseille' };
+    }
 
   static navigationOptions = {
     title:'Rechercher une ville',
@@ -14,28 +18,16 @@ class Search extends React.Component{
     }
   }
 
-
-
-
-
-  constructor(props) {
-      super(props);
-      this.state = { text: 'Marseille' };
-    }
-
-
-  setState(state)
-  {
-    this.setState(state)
-  }
+setCity(e){
+    this.setState({text:e})
+}
 
   submit()
   {
       this.props.navigation.navigate('Result', {ville:this.state.text})
-
-
-
+      Keyboard.dismiss()
   }
+
 
 
   render()
@@ -45,7 +37,8 @@ class Search extends React.Component{
         <TextInput
         style={globalStyle.input}
         value={this.state.text}
-        onChangeText={(text) => this.setState({text})}
+        onSubmitEditing={() => this.submit()}
+        onChangeText={ this.setCity.bind(this)}
         underlineColorAndroid='transparent'/>
         <Button onPress={ () => this.submit()} title="Rechercher" color={globalStyle.colorButton}/>
       </View>
@@ -63,13 +56,13 @@ const navigationOptions = {
 
 
 export default StackNavigator({
-  Result:{
-    screen:List,
-    navigationOptions
-  },
   Search:{
     screen:Search,
     navigationOptions
   },
+  Result:{
+    screen:List,
+    navigationOptions
+  }
 
 })
